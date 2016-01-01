@@ -16,7 +16,7 @@
  *
  * @return  Error status
  */
-uint8_t msg_builder(const addr_t emitter, const act_t &action, const uint8_t &data, const uint8_t data_len, uint8_t &msg, uint8_t msg_len);
+err_t msg_builder(const addr_t emitter, const act_t action, const uint8_t data[], const size_t data_len, uint8_t msg[], size_t *msg_len);
 
 /*
  * @brief   Decode received message
@@ -31,4 +31,4 @@ uint8_t msg_builder(const addr_t emitter, const act_t &action, const uint8_t &da
  *
  * @return  Error status
  */
-uint8_t msg_reader(const uint8_t &msg, const uint8_t msg_len, addr_t emitter, act_t &action, uint8_t &data, uint8_t data_len);
+err_t msg_reader(const uint8_t msg[], const size_t msg_len, addr_t *emitter, act_t *action, uint8_t data[], size_t *data_len);
