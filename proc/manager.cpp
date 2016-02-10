@@ -1,3 +1,5 @@
+#include "manager.h"
+
 // Global proccessing variables
 proc_queue reg_list[MAX_REG_PROCS];
 uint8_t reg_queue_size = 0;

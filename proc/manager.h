@@ -1,10 +1,12 @@
+#include "includes.h"
+
 #define EMPTY_QUEUE 10
 
 struct proc_queue_union {
     act_t action_id;
     uint8_t action_data[];
-    size_t data_len: 0;
-} proc_queue
+    size_t data_len;
+} proc_queue;
 
 /*
 * @brief   Setup dynamic queue
@@ -66,4 +68,4 @@ uint8_t add_reg_proc(act_t action_id, const uint8_t &data, const uint8_t data_le
 *
 * @return  Error status
 */
-uint8_t next_proc(void &next_act);
+uint8_t next_proc(act_t *action_id, uint8_t data[], size_t *data_len);
