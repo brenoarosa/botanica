@@ -1,10 +1,10 @@
 // Global proccessing variables
 proc_queue reg_list[MAX_REG_PROCS];
-uint8_t last_reg_index;
-uint8_t reg_queue_pointer;
+uint8_t reg_queue_size = 0;
+uint8_t reg_queue_pointer = 0;
 
 proc_queue dyn_queue[MAX_DYN_PROCS + 1];
-uint8_t next_dyn_index;
+uint8_t dyn_queue_size;
 
 /*
 * @brief   Setup dynamic queue
@@ -15,7 +15,7 @@ uint8_t setup_dyn_proc() {
     dyn_queue[0].action_id = 0;
     dyn_queue[0].data_len = 0;
 
-    next_dyn_index = 0;
+    dyn_queue_size = 0;
 
     return 0;
 }
@@ -31,19 +31,15 @@ uint8_t setup_dyn_proc() {
 * @return  Error status
 */
 uint8_t add_dyn_proc(const act_t action_id, const uint8_t data[], const size_t data_len) {
-    if(next_dyn_index > MAX_DYN_PROCS) {
+    if(dyn_queue_size == MAX_DYN_PROCS) {
         return UNAVAILABLE_RESOURCE;
     }
 
-    dyn_queue[next_dyn_index].action_id = action_id;
-    memcpy(dyn_queue[next_dyn_index].action_data, data, data_len);
-    dyn_queue[next_dyn_index].data_len = data_len;
+    dyn_queue[dyn_queue_size - 1].action_id = action_id;
+    memcpy(dyn_queue[dyn_queue_size - 1].action_data, data, data_len);
+    dyn_queue[dyn_queue_size - 1].data_len = data_len;
 
-    next_dyn_index++;
-    //setup next
-    dyn_queue[next_dyn_index].action_id = 0;
-    dyn_queue[next_dyn_index].data_len = 0;
-
+    dyn_queue_size++;
     return 0;
 }
 
@@ -57,28 +53,32 @@ uint8_t add_dyn_proc(const act_t action_id, const uint8_t data[], const size_t d
 */
 uint8_t remove_dyn_proc(uint8_t index) {
 
-    if(index == next_dyn_index) {
-        return 0;
-    }
-
-    if(index > next_dyn_index) {
+    if(index > (dyn_queue_size-1)) {
         return INVALID_ARG;
     }
 
     // inefficient but fixed length
-    for(uint8_t i = index; i < next_dyn_index; i++) {
+    for(uint8_t i = index; i < (dyn_queue_size-1); i++) {
         dyn_queue[i].action_id = dyn_queue[i+1].action_id;
         memcpy(dyn_queue[i].action_data, dyn_queue[i+1].action_data, dyn_queue[i+1].data_len);
         dyn_queue[i].data_len = dyn_queue[i+1].data_len;
     }
 
-    next_dyn_index--;
-
+    dyn_queue_size--;
     return 0;
 }
 
 uint8_t next_dyn(act_t *action_id, uint8_t data[], size_t *data_len) {
 
+    if(dyn_queue_size == 0) {
+        return EMPTY_QUEUE;
+    }
+
+    *action_id = dyn_queue[0].action_id;
+    *data_len = dyn_queue[0].data_len;
+    memcpy(data, dyn_queue[0].action_data, dyn_queue[0].data_len);
+
+    return 0;
 }
 
 /*
@@ -93,15 +93,35 @@ uint8_t next_dyn(act_t *action_id, uint8_t data[], size_t *data_len) {
 */
 uint8_t add_reg_proc(const act_t action_id, const uint8_t data[], const size_t data_len) {
 
-    if(last_reg_index == MAX_DYN_PROCS) {
+    if(reg_queue_size == MAX_DYN_PROCS) {
         return UNAVAILABLE_RESOURCE;
     }
 
-    last_reg_index++;
+    reg_queue_size++;
 
-    reg_list[last_reg_index].action_id = action_id;
-    memcpy(reg_list[last_reg_index].action_data, data, data_len);
-    reg_list[last_reg_index].data_len = data_len;
+    reg_list[reg_queue_size-1].action_id = action_id;
+    memcpy(reg_list[reg_queue_size-1].action_data, data, data_len);
+    reg_list[reg_queue_size-1].data_len = data_len;
+
+    return 0;
+}
+
+uint8_t next_reg(act_t *action_id, uint8_t data[], size_t *data_len) {
+
+    if(reg_queue_size == 0) {
+        return EMPTY_QUEUE;
+    }
+
+
+    *action_id = dyn_queue_size[reg_queue_pointer].action_id;
+    *data_len = dyn_queue_size[reg_queue_pointer].data_len;
+    memcpy(data, dyn_queue[reg_queue_pointer].action_data, dyn_queue[reg_queue_pointer].data_len);
+
+    reg_queue_pointer++;
+
+    if(reg_queue_pointer == reg_queue_size) {
+        reg_queue_pointer = 0;
+    }
 
     return 0;
 }
@@ -114,4 +134,18 @@ uint8_t add_reg_proc(const act_t action_id, const uint8_t data[], const size_t d
 *
 * @return  Error status
 */
-uint8_t next_proc(act_t *action_id, uint8_t data[], size_t *data_len);
+uint8_t next_proc(act_t *action_id, uint8_t data[], size_t *data_len) {
+
+    uint8_t func_return = next_dyn(action_id, data[], data_len);
+
+    if(func_return != EMPTY_QUEUE) {
+        return 0;
+    }
+
+    func_return = next_reg(action_id, data[], data_len);
+    if(func_return != EMPTY_QUEUE) {
+        return 0;
+    }
+
+    return EMPTY_QUEUE;
+}

@@ -1,3 +1,5 @@
+#define EMPTY_QUEUE 10
+
 struct proc_queue_union {
     act_t action_id;
     uint8_t action_data[];
