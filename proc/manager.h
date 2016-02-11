@@ -1,10 +1,11 @@
 #include "includes.h"
+#include <string.h>
 
 #define EMPTY_QUEUE 10
 
-struct proc_queue_union {
+struct proc_union {
     act_t action_id;
-    uint8_t action_data[];
+    uint8_t data[];
     size_t data_len;
 } proc_queue;
 
@@ -25,7 +26,7 @@ uint8_t setup_dyn_proc();
 *
 * @return  Error status
 */
-uint8_t add_dyn_proc(const act_t action_id, const uint8_t data[], const size_t data_len);
+uint8_t add_dyn_proc(const proc_union *proc);
 
 /*
 * @brief   Removes action to dynamic queue
@@ -36,17 +37,8 @@ uint8_t add_dyn_proc(const act_t action_id, const uint8_t data[], const size_t d
 * @return  Error status
 */
 uint8_t remove_dyn_proc(uint8_t index);
-/*
-* @brief   Adds action to dynamic queue
-* @usage   Action will be the add to dynamic FIFO
-*
-* @param   action_id - in - action id
-* @param   data - in - data (parameters) to be passed for action
-* @param   data_len - in - data length
-*
-* @return  Error status
-*/
-uint8_t add_dyn_proc(act_t action_id, const uint8_t &data, const uint8_t data_len);
+
+uint8_t next_dyn(proc_union *proc);
 
 /*
 * @brief   Adds action to regular actions list
@@ -58,7 +50,9 @@ uint8_t add_dyn_proc(act_t action_id, const uint8_t &data, const uint8_t data_le
 *
 * @return  Error status
 */
-uint8_t add_reg_proc(act_t action_id, const uint8_t &data, const uint8_t data_len);
+uint8_t add_reg_proc(const proc_union *proc);
+
+uint8_t next_reg(proc_union *proc);
 
 /*
 * @brief   Pointer to next action
@@ -68,4 +62,4 @@ uint8_t add_reg_proc(act_t action_id, const uint8_t &data, const uint8_t data_le
 *
 * @return  Error status
 */
-uint8_t next_proc(act_t *action_id, uint8_t data[], size_t *data_len);
+uint8_t next_proc(proc_union *proc);
