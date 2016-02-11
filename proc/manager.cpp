@@ -1,33 +1,38 @@
 #include "manager.h"
 
 // Global proccessing variables
-proc_union reg_list[MAX_REG_PROCS];
+proc_union reg_list[MAX_REG_PROC];
 uint8_t reg_queue_size = 0;
 uint8_t reg_queue_pointer = 0;
 
-proc_union dyn_queue[MAX_DYN_PROCS];
+proc_union dyn_queue[MAX_DYN_PROC];
 uint8_t dyn_queue_size;
 
 uint8_t setup_dyn_proc() {
-    dyn_queue[0].action_id = 0;
-    dyn_queue[0].data_len = 0;
 
+    dyn_queue[0] = {0, {0}, 0};
     dyn_queue_size = 0;
 
     return 0;
 }
 
 uint8_t add_dyn_proc(const proc_union *proc) {
-    if(dyn_queue_size == MAX_DYN_PROCS) {
+
+    if(dyn_queue_size == MAX_DYN_PROC) {
         return UNAVAILABLE_RESOURCE;
     }
+
+    dyn_queue_size++;
 
     dyn_queue[dyn_queue_size - 1].action_id = (*proc).action_id;
     memcpy(dyn_queue[dyn_queue_size - 1].data, (*proc).data, (*proc).data_len);
     dyn_queue[dyn_queue_size - 1].data_len = (*proc).data_len;
 
-    dyn_queue_size++;
     return 0;
+}
+
+uint8_t remove_dyn_proc() {
+    return remove_dyn_proc(0);
 }
 
 uint8_t remove_dyn_proc(uint8_t index) {
@@ -43,7 +48,10 @@ uint8_t remove_dyn_proc(uint8_t index) {
         dyn_queue[i].data_len = dyn_queue[i+1].data_len;
     }
 
+    dyn_queue[dyn_queue_size-1] = {0, {0}, 0};
+
     dyn_queue_size--;
+
     return 0;
 }
 
@@ -62,7 +70,7 @@ uint8_t next_dyn(proc_union *proc) {
 
 uint8_t add_reg_proc(const proc_union *proc) {
 
-    if(reg_queue_size == MAX_DYN_PROCS) {
+    if(reg_queue_size == MAX_DYN_PROC) {
         return UNAVAILABLE_RESOURCE;
     }
 

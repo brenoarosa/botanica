@@ -1,3 +1,5 @@
+#pragma once
+
 #include "includes.h"
 #include <string.h>
 
@@ -5,9 +7,9 @@
 
 struct proc_union {
     act_t action_id;
-    uint8_t data[];
+    uint8_t data[MAX_DATA_SIZE];
     size_t data_len;
-} proc_queue;
+};
 
 /*
 * @brief   Setup dynamic queue
@@ -27,6 +29,8 @@ uint8_t setup_dyn_proc();
 * @return  Error status
 */
 uint8_t add_dyn_proc(const proc_union *proc);
+
+uint8_t remove_dyn_proc();
 
 /*
 * @brief   Removes action to dynamic queue
