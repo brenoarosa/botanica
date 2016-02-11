@@ -10,3 +10,4 @@
 #define MAX_REG_PROC 35
 #define MAX_DYN_PROC 20
 #define MAX_DATA_SIZE 50
+#define MAX_MSG_SIZE 60

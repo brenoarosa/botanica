@@ -1,4 +1,4 @@
-#include "actions.h"
+#include "blink.h"
 
 void blink_setup() {
     actions_ids[act_size] = 1;

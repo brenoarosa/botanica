@@ -1,7 +1,4 @@
-#include "actions.h"
-#include "proc/manager.h"
-#include "comm/codec.h"
-#include "comm/network.h"
+#include "request_blink.h"
 
 void blink_req_setup() {
     actions_ids[act_size] = 2;
