@@ -2,10 +2,9 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include "config.h"
 
 // constants
-#define MAX_REG_PROCS 20
-#define MAX_DYN_PROCS 15
 #define GCALL_ADDR 0x00
 
 // error codes
