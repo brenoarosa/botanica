@@ -1,7 +1,7 @@
 #include "manager.h"
 
 // Global proccessing variables
-proc_union reg_list[MAX_REG_PROC];
+proc_union reg_queue[MAX_REG_PROC];
 uint8_t reg_queue_size = 0;
 uint8_t reg_queue_pointer = 0;
 
@@ -76,9 +76,9 @@ uint8_t add_reg_proc(const proc_union *proc) {
 
     reg_queue_size++;
 
-    reg_list[reg_queue_size-1].action_id = (*proc).action_id;
-    memcpy(reg_list[reg_queue_size-1].data, (*proc).data, (*proc).data_len);
-    reg_list[reg_queue_size-1].data_len = (*proc).data_len;
+    reg_queue[reg_queue_size-1].action_id = (*proc).action_id;
+    memcpy(reg_queue[reg_queue_size-1].data, (*proc).data, (*proc).data_len);
+    reg_queue[reg_queue_size-1].data_len = (*proc).data_len;
 
     return 0;
 }
@@ -89,10 +89,9 @@ uint8_t next_reg(proc_union *proc) {
         return EMPTY_QUEUE;
     }
 
-
-    (*proc).action_id = dyn_queue[reg_queue_pointer].action_id;
-    (*proc).data_len = dyn_queue[reg_queue_pointer].data_len;
-    memcpy((*proc).data, dyn_queue[reg_queue_pointer].data, dyn_queue[reg_queue_pointer].data_len);
+    (*proc).action_id = reg_queue[reg_queue_pointer].action_id;
+    (*proc).data_len = reg_queue[reg_queue_pointer].data_len;
+    memcpy((*proc).data, reg_queue[reg_queue_pointer].data, reg_queue[reg_queue_pointer].data_len);
 
     reg_queue_pointer++;
 
@@ -108,6 +107,7 @@ uint8_t next_proc(proc_union *proc) {
     uint8_t func_return = next_dyn(proc);
 
     if(func_return != EMPTY_QUEUE) {
+        remove_dyn_proc();
         return 0;
     }
 
