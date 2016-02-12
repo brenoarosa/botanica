@@ -11,6 +11,8 @@ struct action_union {
     uint8_t (*function)(uint8_t data[], size_t data_len);
 };
 
+void register_action(action_union act);
+
 bool is_installed(const act_t action_id);
 
 void get_action(const act_t action_id, uint8_t (*function)(uint8_t*, size_t));
