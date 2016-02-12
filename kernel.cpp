@@ -20,7 +20,9 @@ void msg_handler(int bytes_available) {
     addr_t emitter;
     // fix reference in proc
     msg_reader(msg, msg_len, &emitter, &proc);
-    add_dyn_proc(&proc);
+    if(is_installed(proc.action_id)) {
+        add_dyn_proc(&proc);
+    }
 }
 
 void run_it_baby() {

@@ -1,9 +1,10 @@
 #pragma once
 
+#include <Arduino.h>
 #include "actions.h"
-#include "proc/manager.h"
-#include "comm/codec.h"
-#include "comm/network.h"
+#include "manager.h"
+#include "codec.h"
+#include "network.h"
 
 void blink_req_setup();
-void req_blink(uint8_t data[], size_t data_len);
+uint8_t req_blink(uint8_t data[], size_t data_len);

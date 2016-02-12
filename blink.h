@@ -1,6 +1,7 @@
 #pragma once
 
 #include "actions.h"
+#include <Arduino.h>
 
 void blink_setup();
 

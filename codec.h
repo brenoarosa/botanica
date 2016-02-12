@@ -1,7 +1,7 @@
 #pragma once
 
 #include "includes.h"
-#include "proc/manager.h"
+#include "manager.h"
 
 err_t msg_builder(const addr_t emitter, const proc_union proc, uint8_t msg[], size_t *msg_len);
 
