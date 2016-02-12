@@ -1,4 +1,4 @@
-#include "comm/codec.h"
+#include "codec.h"
 #include <iostream>
 
 int main(void) {

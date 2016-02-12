@@ -1,5 +1,5 @@
 #include <iostream>
-#include "proc/manager.h"
+#include "manager.h"
 
 extern proc_union dyn_queue[];
 extern proc_union reg_queue[];
