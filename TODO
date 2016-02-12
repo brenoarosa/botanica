@@ -1,0 +1,6 @@
+CMake Makefile, current test compilation proccess:
+    g++ -c {file}.cpp -o {file}.o -I/home/arosa/botanica -Wall -std=gnu++11
+    g++ -c tests/{file}.cpp -o tests/{file}.o -I/home/arosa/botanica -Wall -std=gnu++11
+    g++ -o tests/{file}.out {file}.o tests/{file}.o -Wall -std=gnu++11
+
+Migrate to a unit test framework to integrate with CI
