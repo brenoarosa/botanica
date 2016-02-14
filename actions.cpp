@@ -24,9 +24,9 @@ bool is_installed(const act_t action_id) {
 
 void get_action(const act_t action_id, uint8_t (*function)(uint8_t*, size_t)) {
 
-    for(uint8_t i; i < act_size; i++) {
+    for(uint8_t i=0; i < act_size; i++) {
         if(actions[i].action_id == action_id) {
-            function = actions[1].function;
+            function = actions[i].function;
             return;
         }
     }
