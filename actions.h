@@ -6,13 +6,15 @@
 
 #include "includes.h"
 
+typedef uint8_t (*actptr_t)(uint8_t*, size_t);
+
 struct action_union {
     act_t action_id;
-    uint8_t (*function)(uint8_t data[], size_t data_len);
+    actptr_t function;
 };
 
-void register_action(action_union act);
+void register_action(action_union);
 
-bool is_installed(const act_t action_id);
+bool is_installed(const act_t);
 
-void get_action(const act_t action_id, uint8_t (*function)(uint8_t*, size_t));
+void get_action(const act_t, actptr_t&);

@@ -28,7 +28,7 @@ int struct_test(void) {
     std::cout << "Testing stored function:" << std::endl;
     std::cout << "\t";
 
-    uint8_t (*function)(uint8_t *, size_t);
+    actptr_t function = nullptr;
     function = action.function;
     function(data, data_len);
 
@@ -64,7 +64,7 @@ int get_test(void) {
 
     act_t act_id = 1;
 
-    uint8_t (*function)(uint8_t *, size_t);
+    actptr_t function = nullptr;
     uint8_t data[20] = {1,2,3,4};
     size_t data_len = 4;
 

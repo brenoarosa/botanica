@@ -22,7 +22,7 @@ bool is_installed(const act_t action_id) {
     return false;
 }
 
-void get_action(const act_t action_id, uint8_t (*function)(uint8_t*, size_t)) {
+void get_action(const act_t action_id, actptr_t& function) {
 
     for(uint8_t i=0; i < act_size; i++) {
         if(actions[i].action_id == action_id) {

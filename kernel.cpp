@@ -30,7 +30,7 @@ void run_it_baby() {
         proc_union proc = {0, {}, 0};
         next_proc(&proc);
 
-        uint8_t (*function)(uint8_t*, size_t);
+        actptr_t function = nullptr;
         get_action(proc.action_id, function);
 
         function(proc.data, proc.data_len);
