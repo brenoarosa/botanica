@@ -9,7 +9,8 @@ uint8_t req_blink(uint8_t data[], size_t data_len) {
 
     unsigned long current_time;
     current_time = millis();
-    if(current_time - last_req_blink > 5000) {
+
+    if((current_time-last_req_blink) < 5000) {
         return 0;
     }
 
