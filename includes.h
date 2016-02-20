@@ -5,7 +5,7 @@
 #include "config.h"
 
 // constants
-#define GCALL_ADDR 0x00
+#define GCALL_ADDR 0x0
 
 // error codes
 #define UNAVAILABLE_RESOURCE 1

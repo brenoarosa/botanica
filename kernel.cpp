@@ -1,17 +1,13 @@
 #include "kernel.h"
 
 void setup_kernel() {
-
     setup_net(NODE_ADDR, msg_handler);
-
-    blink_setup();
-    blink_req_setup();
 }
 
 void msg_handler(int bytes_available) {
     size_t msg_len = 0;
     uint8_t msg[MAX_MSG_SIZE];
-    while (Wire.available() > 0) {
+    while (Wire.available()) {
         msg[msg_len] = Wire.read();
         msg_len++;
     }
