@@ -23,8 +23,14 @@ void msg_handler(int bytes_available) {
 
 void run_it_baby() {
     while(1) {
+
         proc_union proc = {0, {}, 0};
-        next_proc(&proc);
+
+        uint8_t result = next_proc(&proc);
+
+        if(result == EMPTY_QUEUE) {
+            continue;
+        }
 
         actptr_t function = nullptr;
         get_action(proc.action_id, function);
