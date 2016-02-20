@@ -15,11 +15,11 @@ uint8_t hum_controller(uint8_t data[], size_t data_len) {
     Serial.println(value);
 
     if(value > HUM_THRESHOLD) {
-        for(int i = 0; i < 3; i++) {
+        for(int i = 0; i < 2; i++) {
             digitalWrite(13, HIGH);
-            delay(300);
+            delay(200);
             digitalWrite(13, LOW);
-            delay(300);
+            delay(200);
         }
     }
 

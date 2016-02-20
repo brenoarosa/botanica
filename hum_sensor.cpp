@@ -3,7 +3,18 @@
 extern action_union actions[];
 extern uint8_t act_size;
 
+unsigned long last_hum_measure;
+
 uint8_t hum_measure(uint8_t data[], size_t data_len) {
+
+    unsigned long current_time;
+    current_time = millis();
+
+    if((current_time-last_hum_measure) < HUM_MEASURE_INTERVAL) {
+        return 0;
+    }
+
+    last_hum_measure = current_time;
 
     int _value;
     _value = analogRead(HUM_SENSOR_PIN);
@@ -43,6 +54,8 @@ void setup_hum_sensor() {
 
     proc_union proc = {11, {}, 0};
     add_reg_proc(&proc);
+
+    last_hum_measure = millis();
 
     return;
 }

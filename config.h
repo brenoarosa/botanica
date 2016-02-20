@@ -15,4 +15,6 @@
 /* humidity module */
 #define HUM_SENSOR_PIN A0
 #define HUM_MOTOR_PIN 22
+// 0 to 255
 #define HUM_THRESHOLD 125
+#define HUM_MEASURE_INTERVAL 1000
