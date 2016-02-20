@@ -9,7 +9,7 @@
 #define MAX_ACTIONS 20
 #define MAX_REG_PROC 10
 #define MAX_DYN_PROC 20
-#define MAX_DATA_SIZE 30
+#define MAX_DATA_SIZE 10
 #define MAX_MSG_SIZE 32
 
 /* humidity module */
