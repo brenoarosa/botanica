@@ -5,9 +5,9 @@ extern uint8_t act_size;
 
 uint8_t blink_pin(uint8_t data[], size_t data_len) {
     digitalWrite(13, HIGH);
-    delay(500);
+    delay(2000);
     digitalWrite(13, LOW);
-    delay(500);
+    delay(2000);
 
     return 0;
 }

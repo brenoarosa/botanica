@@ -11,16 +11,15 @@ uint8_t hum_controller(uint8_t data[], size_t data_len) {
 
     uint8_t value = data[0];
 
-    Serial.print("Controller receiver: ");
+    Serial.print("Humidity Controller receiver: ");
     Serial.println(value);
 
-    if(value > HUM_THRESHOLD) {
-        for(int i = 0; i < 2; i++) {
-            digitalWrite(13, HIGH);
-            delay(200);
-            digitalWrite(13, LOW);
-            delay(200);
-        }
+    if(value < HUM_THRESHOLD) {
+        Serial.println(">>>>>>>>>>>>>>>>>>>>>>>>>> LIGANDO");
+        digitalWrite(HUM_MOTOR_PIN, HIGH);
+        delay(HUM_MOTOR_ACTIVE);
+        Serial.println(">>>>>>>>>>>>>>>>>>>>>>>>>> DESLIGANDO");
+        digitalWrite(HUM_MOTOR_PIN, LOW);
     }
 
     return 0;
@@ -34,6 +33,5 @@ void setup_hum_controller() {
     act_size++;
 
     pinMode(HUM_MOTOR_PIN, OUTPUT);
-    pinMode(13, OUTPUT);
     return;
 }

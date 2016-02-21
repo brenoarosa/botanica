@@ -6,6 +6,8 @@
 #include "request_blink.h"
 #include "hum_controller.h"
 #include "hum_sensor.h"
+#include "lum_controller.h"
+#include "lum_sensor.h"
 
 void setup_kernel();
 void msg_handler(int bytes_available);

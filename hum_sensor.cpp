@@ -22,7 +22,7 @@ uint8_t hum_measure(uint8_t data[], size_t data_len) {
 
     uint8_t value = _value;
 
-    Serial.print("Sensor sending: ");
+    Serial.print("Humidity Sensor sending: ");
     Serial.println(value);
 
     /* Preparing controller call */
